@@ -35,28 +35,15 @@ const Component = React.memo(() => {
     return <div className="spaces spaces--empty" />;
   }
 
-  const hasMainExternal = displays.some(_ => _["monitor-name"].includes("Studio"))
-  const hasMainBuiltin = !hasMainExternal && displays.some(_ => _["monitor-name"].includes("Built-in"))
-
   // Map through displays and render spaces for the current display
-  return displays.map((display, index) => {
-    let displayId = hasMainExternal 
-      ? display["monitor-name"].includes("Studio") 
-        ? 3 
-        : 1
-      : hasMainBuiltin
-        ? display["monitor-name"].includes("Built-in")
-          ? 3
-          : 1
-        : AeroSpace.getCustomDisplayIndex(display)
-    console.log("b", { display, displayId, displayIndex});
-
+  return displays.map((display) => {
+    const displayId = AeroSpace.getCustomDisplayIndex(display);
     if (displayId !== displayIndex) return null;
 
     // Filter spaces based on display settings
     const filteredSpaces = displayAllSpacesOnAllScreens
       ? spaces
-      : spaces.filter((space) => space.monitor === display["monitor-id"]);
+      : spaces.filter((space) => space.monitor === displayId);
 
     return (
       <div key={displayId} className="spaces">

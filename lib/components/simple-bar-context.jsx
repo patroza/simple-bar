@@ -49,29 +49,26 @@ export default function SimpleBarContextProvider({
 
   const displayId = parseInt(window.location.pathname.replace("/", ""), 10);
 
-  // // Check if the built-in Retina Display is present in the current displays
-  // const hasBuiltInRetina = currentDisplays?.some(
-  //   (d) => d["monitor-name"] === "Built-in Retina Display",
-  // );
+  // Check if the built-in Retina Display is present in the current displays
+  const hasBuiltInRetina = currentDisplays?.some(
+    (d) => d["monitor-name"] === "Built-in Retina Display",
+  );
 
-  // // Adjust displayId if the Retina screen is missing when using AeroSpace
-  // // This prevents mismatch between Übersicht and AeroSpace display numbering
-  // // as Übersicht still count closed built in screen in the display count
-  // const adjustedDisplayId =
-  //   isAeroSpace && !hasBuiltInRetina ? displayId - 1 : displayId;
+  // Adjust displayId if the Retina screen is missing when using AeroSpace
+  // This prevents mismatch between Übersicht and AeroSpace display numbering
+  // as Übersicht still count closed built in screen in the display count
+  const adjustedDisplayId =
+    isAeroSpace && !hasBuiltInRetina ? displayId - 1 : displayId;
 
-  // const currentDisplay =
-  //   currentDisplays?.find((d) => {
-  //     const id = Aerospace.getCustomDisplayIndex(d) ?? d["monitor-id"];
-  //     return id === adjustedDisplayId;
-  //   }) || {};
+  const currentDisplay =
+    currentDisplays?.find((d) => {
+      const id = Aerospace.getCustomDisplayIndex(d) ?? d.id;
+      return id === adjustedDisplayId;
+    }) || {};
 
-  // const displayIndex =
-  //   (currentDisplay.index ?? Aerospace.getCustomDisplayIndex(currentDisplay)) ||
-  //   1;
-  const displayIndex = displayId
-
-  console.log("a", { currentDisplays, displayIndex, displayId });
+  const displayIndex =
+    (currentDisplay.index ?? Aerospace.getCustomDisplayIndex(currentDisplay)) ||
+    1;
 
   const pushMissive = (newMissive) => {
     const now = Date.now();
